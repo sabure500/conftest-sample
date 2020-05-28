@@ -23,8 +23,9 @@ jobs:
 
       - name: Conftest Pull Policy
         run: |-
-          ./conftest pull git@github.com:sabure500/conftest-kubernetes-policy.git
-
+          ./conftest pull https://github.com/sabure500/conftest-kubernetes-policy.git
+          ls -l
+          ls -l policy/
       - name: Run Conftest
         run: |-
           ./kustomize build . > result.yaml
