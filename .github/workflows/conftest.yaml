@@ -19,14 +19,13 @@ jobs:
       - name: Setup Kustomize
         run: |-
           curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          # chmod u+x kustomize
-          ls -l
+          chmod u+x kustomize
 
       - name: Conftest Pull Policy
         run: |-
-          conftest pull git@github.com:sabure500/conftest-kubernetes-policy.git
+          ./conftest pull git@github.com:sabure500/conftest-kubernetes-policy.git
 
       - name: Run Conftest
         run: |-
-          kustomize build . > result.yaml
-          conftest test result.yaml
+          ./kustomize build . > result.yaml
+          ./conftest test result.yaml
