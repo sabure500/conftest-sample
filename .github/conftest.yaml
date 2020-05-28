@@ -1,0 +1,33 @@
+name: 'conftest'
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  conftest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: Setup Conftest
+        run: |-
+          wget https://github.com/instrumenta/conftest/releases/download/v0.18.2/conftest_0.18.2_Linux_x86_64.tar.gz
+          tar xzf conftest_0.18.2_Linux_x86_64.tar.gz
+          mv conftest /usr/local/bin
+
+      - name: Conftest Pull Policy
+        run: |-
+          conftest pull git@github.com:sabure500/conftest-kubernetes-policy.git
+
+      - name: Setup Kustomize
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x kustomize
+          mv kustomize /usr/local/bin
+      
+      - name: Run Conftest
+        run: |-
+          kustomize build . > result.yaml
+          conftest test result.yaml

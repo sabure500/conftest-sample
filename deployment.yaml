@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conftest-sample-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: conftest-sample
+  template:
+    metadata:
+      labels:
+        app: conftest-sample
+    spec:
+      containers:
+        - image: gcr.io/conftest-sample:latest
+          name: conftest-sample
+          ports:
+            - containerPort: 5000
+          resources: 
+            requests:
+              memory: 100000MiB
+      imagePullSecrets:
+        - name: gcr-read-secret
